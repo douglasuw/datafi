@@ -4,24 +4,71 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>signup</title>
+	<style type="text/css">
+		* {
+			box-sizing: border-box;
+		}
+		input {
+			max-width: 400px;
+			width: 100%;
+		}
+	</style>
 </head>
 <body>
 
 	<form id="signupForm">
-		<label for="fullName">Nome Completo:</label>
-		<input type="text" id="fullName" required>
+		<label for="endpoint">endpoint</label><br>
+		<input type="text" id="endpoint" required value="http://164.92.117.16/auth/signup">
 
-		<label for="email">Email:</label>
-		<input type="email" id="email" required>
+		<br><br>
 
-		<label for="password">Senha:</label>
-		<input type="password" id="password" required>
+		<label for="fullName">Nome Completo:</label><br>
+		<input type="text" id="fullName" required value="Douglas Sousa">
+
+		<br><br>
+
+		<label for="email">Email:</label><br>
+		<input type="email" id="email" required value="douglasuw@gmail.com">
+
+		<br><br>
+
+		<label for="password">Senha:</label><br>
+		<input type="password" id="password" required value="258">
+
+		<br><br>
 
 		<button type="submit">Criar Conta</button>
 	</form>
 
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script src="signup.js"></script>
+	<script>
+		$(document).ready(function() {
+			$("#signupForm").submit(function(event) {
+				event.preventDefault();
+
+				var formData = {
+					email: $("#email").val(),
+					password: $("#password").val(),
+					fullName: $("#fullName").val()
+				};
+
+				$.ajax({
+					url: $("#endpoint").val(),
+					type: "POST",
+					contentType: "application/json",
+					data: JSON.stringify(formData),
+					success: function(response) {
+						alert("Conta criada com sucesso!");
+						console.log(response);
+					},
+					error: function(xhr, status, error) {
+						alert("Erro ao criar conta: " + xhr.responseText);
+						console.error(error);
+					}
+				});
+			});
+		});	
+	</script>
 
 </body>
 </html>
